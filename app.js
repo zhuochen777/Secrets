@@ -14,7 +14,7 @@ app.use(express.static("public"));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 
-//set up session using session package
+//set up session using session package with initial configuration
 app.use(session({
     secret: "Our little secret.",
     resave: false,
@@ -39,7 +39,7 @@ userSchema.plugin(passportLocalMongoose);
 
 const User = mongoose.model("User", userSchema);
 
-//Passport/Passport-Local Configuration, setup passport-local LocalStrategy
+//use passport to create local login strategy
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
@@ -74,7 +74,8 @@ app.get("/logout", function(req, res) {
 });
 
 app.post("/register", function(req, res) {
-    User.register(new User({username: req.body.username}), req.body.password, function(err, user) {
+    //.register comes from passport-local-mongoose package
+    User.register({username: req.body.username}, req.body.password, function(err, user) {
         if (err) {
             console.log(err);
             res.redirect("/register");
