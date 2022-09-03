@@ -7,19 +7,19 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const findOrCreate = require('mongoose-findorcreate');
-const FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
+const FacebookStrategy = require("passport-facebook").Strategy;
 
 const app = express();
 
 app.use(express.static("public"));
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
 //set up session using session package with initial configuration
 app.use(session({
-  secret: 'keyboard cat',
+  secret: "keyboard cat",
   resave: false,
   saveUninitialized: false
 }));
@@ -99,25 +99,25 @@ app.get("/", function(req, res) {
 });
 
 //code copied from https://www.passportjs.org/packages/passport-google-oauth20/
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+app.get("/auth/google",
+  passport.authenticate("google", { scope: ["profile"] }));
 
-app.get('/auth/google/secrets',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+app.get("/auth/google/secrets",
+  passport.authenticate("google", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect secrets.
-    res.redirect('/secrets');
+    res.redirect("/secrets");
   });
 
 //code copied from https://www.passportjs.org/packages/passport-facebook/
-app.get('/auth/facebook',
-  passport.authenticate('facebook'));
+app.get("/auth/facebook",
+  passport.authenticate("facebook"));
 
-app.get('/auth/facebook/secrets',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+app.get("/auth/facebook/secrets",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/secrets');
+    res.redirect("/secrets");
   });
 
 
